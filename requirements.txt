@@ -1,0 +1,4 @@
+# filepath: requirements.txt
+Flask
+mlflow
+scikit-learn

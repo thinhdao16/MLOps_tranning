@@ -1,0 +1,14 @@
+python -m venv .venv
+
+*window*
+git bash
+source .venv/Scripts/activate
+
+cmd
+.venv\Scripts\activate
+
+*linux*
+source .venv/bin/activate
+
+
+mlflow ui
