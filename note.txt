@@ -7,7 +7,7 @@ source .venv/Scripts/activate
 cmd
 .venv\Scripts\activate
 
-*linux*
+*wsl*
 source .venv/bin/activate
 
 

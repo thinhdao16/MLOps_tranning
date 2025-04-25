@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ML Prediction</title>
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
+  <body>
     <h1>ML Prediction</h1>
     <form action="/predict" method="post">
-        <label for="features">Nhập danh sách 20 giá trị đặc trưng (cách nhau bằng dấu phẩy):</label><br>
-        <input type="text" id="features" name="features" required style="width: 100%;"><br><br>
-        <button type="submit">Dự đoán</button>
+      <label for="features"
+        >Nhập danh sách 20 giá trị đặc trưng (cách nhau bằng dấu phẩy):</label
+      ><br />
+      <input
+        type="text"
+        id="features"
+        name="features"
+        required
+        style="width: 100%"
+      /><br /><br />
+      <button type="submit">Dự đoán</button>
     </form>
-</body>
-
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+  </body>
 </html>
