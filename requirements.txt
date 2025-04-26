@@ -1,4 +1,6 @@
-# filepath: requirements.txt
-Flask
-mlflow
-scikit-learn
+Flask                # Framework web để xây dựng ứng dụng Flask
+mlflow               # Công cụ quản lý thí nghiệm và Model Registry
+scikit-learn         # Thư viện học máy để huấn luyện mô hình
+pandas               # Xử lý và phân tích dữ liệu
+numpy                # Tính toán số học
+joblib               # Lưu và tải mô hình

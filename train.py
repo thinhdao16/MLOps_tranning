@@ -4,109 +4,121 @@ import mlflow.sklearn
 from mlflow.tracking import MlflowClient
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score, accuracy_score
+import pandas as pd
 import numpy as np
+import os
+import joblib
+import json
 
-# Đặt tên cho experiment
-experiment_name = "Mlflow_Classification_Experiment"
+experiment_name = "Weather_Prediction_Experiment"
 mlflow.set_experiment(experiment_name)
 
-# Sinh dữ liệu phân loại giả sử
-X, y = make_classification(
-    n_samples=2000,  # Tăng số lượng mẫu
-    n_features=30,    # Tăng số lượng đặc trưng
-    n_informative=25, # Tăng số lượng đặc trưng quan trọng
-    n_redundant=5,
+# Sinh dữ liệu phân loại giả lập cho bài toán dự đoán thời tiết
+X, y = make_classification( 
+    n_samples=20000,  # Số lượng mẫu
+    n_features=5,    # Số lượng đặc trưng (giả định: nhiệt độ, độ ẩm, áp suất, gió, mây)
+    n_informative=4, # Số lượng đặc trưng quan trọng
+    n_redundant=1,
     random_state=42
 )
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-best_accuracy = -np.inf
-best_run_id = None
+# Đặt tên cho các đặc trưng
+columns = ["temperature", "humidity", "pressure", "wind", "clouds"]
+X = pd.DataFrame(X, columns=columns)
+
+# Sinh dữ liệu giả lập cho các chỉ số bổ sung
+np.random.seed(42)
+X["uv_index"] = np.random.uniform(0, 11, size=len(X))  # UV Index (0-11)
+X["rainfall"] = np.random.uniform(0, 200, size=len(X))  # Lượng mưa (mm)
+X["visibility"] = np.random.uniform(0, 10, size=len(X))  # Tầm nhìn xa (km)
+X["storm_probability"] = np.random.uniform(0, 1, size=len(X))  # Xác suất xảy ra bão (0-1)
+X["rain_probability"] = np.random.uniform(0, 1, size=len(X))  # Xác suất xảy ra mưa (0-1)
+
+# Chia dữ liệu thành tập huấn luyện và kiểm tra
+X_train, X_test = train_test_split(X, test_size=0.2, random_state=42)
+
+# Các chỉ số cần dự đoán
+targets = ["uv_index", "rainfall", "visibility", "storm_probability", "rain_probability"]
+
+# Huấn luyện một mô hình duy nhất cho tất cả các chỉ số
+y_train = X_train[targets]  # Tất cả các chỉ số mục tiêu
+y_test = X_test[targets]
+X_train_features = X_train[columns]
+X_test_features = X_test[columns]
+
+# Tạo mô hình hồi quy
+model = RandomForestRegressor(n_estimators=100, max_depth=100, random_state=42)
+model.fit(X_train_features, y_train)
+
+# Dự đoán và tính các chỉ số đánh giá
+preds = model.predict(X_test_features)
+mse = mean_squared_error(y_test, preds, multioutput='raw_values')  # Tính MSE cho từng chỉ số
+r2 = r2_score(y_test, preds, multioutput='raw_values')  # Tính R² cho từng chỉ số
+
+# Log các chỉ số vào MLflow
+for i, target in enumerate(targets):
+    mlflow.log_metric(f"{target}_mse", mse[i])
+    mlflow.log_metric(f"{target}_r2", r2[i])
 
 # Thử nghiệm tuning hyperparameters
-max_depth_values = [None, 10, 20, 30, 50]  # Tăng giá trị max_depth
-min_samples_split_values = [2, 5, 10, 20]  # Tăng giá trị min_samples_split
-min_samples_leaf_values = [1, 2, 4, 8]     # Tăng giá trị min_samples_leaf
-criterion_values = ["gini", "entropy"]
-n_estimators_values = [100, 200, 500]      # Thêm số lượng cây trong Random Forest
-alpha_values = [0.1, 0.5, 1.0]             # Thêm alpha làm ví dụ
+max_depth_values = [10, 15, 20, 25, 30, None]
+n_estimators_values = [100, 150, 200, 300, 500, 1000]
+
+best_accuracy = -np.inf
+best_model = None
+
+# Lưu kết quả tuning
+tuning_results = []
 
 for max_depth in max_depth_values:
-    for min_samples_split in min_samples_split_values:
-        for min_samples_leaf in min_samples_leaf_values:
-            for criterion in criterion_values:
-                for n_estimators in n_estimators_values:
-                    for alpha in alpha_values:
-                        start_time = time.time()  # Bắt đầu đo thời gian
-                        with mlflow.start_run() as run:
-                            # Log các siêu tham số
-                            mlflow.log_param("max_depth", max_depth)
-                            mlflow.log_param("min_samples_split", min_samples_split)
-                            mlflow.log_param("min_samples_leaf", min_samples_leaf)
-                            mlflow.log_param("criterion", criterion)
-                            mlflow.log_param("n_estimators", n_estimators)
-                            mlflow.log_param("alpha", alpha)
+    for n_estimators in n_estimators_values:
+        # Kết thúc run trước đó nếu còn tồn tại
+        if mlflow.active_run() is not None:
+            print(f"Kết thúc run hiện tại: {mlflow.active_run().info.run_id}")
+            mlflow.end_run()
 
-                            # Tạo mô hình Random Forest
-                            model = RandomForestClassifier(
-                                n_estimators=n_estimators,
-                                max_depth=max_depth,
-                                min_samples_split=min_samples_split,
-                                min_samples_leaf=min_samples_leaf,
-                                criterion=criterion,
-                                random_state=42
-                            )
-                            model.fit(X_train, y_train)
+        with mlflow.start_run() as run:
+            # Tạo mô hình với siêu tham số
+            model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, random_state=42)
+            model.fit(X_train_features, y_train)
 
-                            # Dự đoán và tính các metric
-                            preds = model.predict(X_test)
-                            acc = accuracy_score(y_test, preds)
-                            precision = precision_score(y_test, preds)
-                            recall = recall_score(y_test, preds)
-                            f1 = f1_score(y_test, preds)
+            # Dự đoán và tính các chỉ số đánh giá
+            preds = model.predict(X_test_features)
+            mse = mean_squared_error(y_test, preds, multioutput='raw_values')  # Tính MSE cho từng chỉ số
+            r2 = r2_score(y_test, preds, multioutput='raw_values')  # Tính R² cho từng chỉ số
 
-                            # Log các metric
-                            mlflow.log_metric("accuracy", acc)
-                            mlflow.log_metric("precision", precision)
-                            mlflow.log_metric("recall", recall)
-                            mlflow.log_metric("f1_score", f1)
+            # Log siêu tham số và chỉ số
+            mlflow.log_param("max_depth", max_depth)
+            mlflow.log_param("n_estimators", n_estimators)
+            for i, target in enumerate(targets):
+                mlflow.log_metric(f"{target}_mse", mse[i])
+                mlflow.log_metric(f"{target}_r2", r2[i])
 
-                            # Log thời gian chạy
-                            duration = time.time() - start_time
-                            mlflow.log_metric("duration", duration)
+            # Lưu kết quả tuning
+            tuning_results.append({
+                "max_depth": max_depth,
+                "n_estimators": n_estimators,
+                "avg_r2": np.mean(r2),
+                "mse": mse.tolist(),
+                "r2": r2.tolist()
+            })
 
-                            # Log model
-                            mlflow.sklearn.log_model(model, "model")
+            # Cập nhật mô hình tốt nhất dựa trên trung bình R²
+            avg_r2 = np.mean(r2)  # Tính trung bình R² cho tất cả các chỉ số
+            if avg_r2 > best_accuracy:
+                best_accuracy = avg_r2
+                best_model = model
 
-                            # In ra kết quả cho lần chạy này
-                            print(f"Run {run.info.run_id} với max_depth={max_depth}, min_samples_split={min_samples_split}, "
-                                  f"min_samples_leaf={min_samples_leaf}, criterion={criterion}, n_estimators={n_estimators}, "
-                                  f"alpha={alpha} đạt accuracy: {acc}, precision: {precision}, recall: {recall}, "
-                                  f"f1_score: {f1}, duration: {duration:.2f}s")
+# Lưu mô hình tốt nhất
+os.makedirs("models", exist_ok=True)
+joblib.dump(best_model, "models/multi_target_model.pkl")
+print("Mô hình dự đoán nhiều chỉ số tốt nhất đã được lưu vào models/multi_target_model.pkl")
 
-                            # Cập nhật mô hình tốt nhất nếu accuracy cao hơn
-                            if acc > best_accuracy:
-                                best_accuracy = acc
-                                best_run_id = run.info.run_id
-
-print(f"Best run ID: {best_run_id} với accuracy: {best_accuracy}")
-
-# Đăng ký mô hình tốt nhất vào Model Registry
-client = MlflowClient()
-model_uri = f"runs:/{best_run_id}/model"
-model_name = "BestModelClassification"
-
-# Đăng ký mô hình (nếu đã tồn tại, phiên bản mới sẽ được tạo)
-result = mlflow.register_model(model_uri, model_name)
-print(f"Registered model version: {result.version}")
-
-# Chuyển trạng thái mô hình sang 'Production'
-client.transition_model_version_stage(
-    name=model_name,
-    version=result.version,
-    stage="Production",
-    archive_existing_versions=True
-)
-print(f"Mô hình {model_name} version {result.version} đã được chuyển sang Production stage.")
+mlflow.sklearn.log_model(best_model, artifact_path="model")
+print("Mô hình tốt nhất đã được lưu vào MLflow.")
+# Lưu kết quả tuning vào file JSON
+with open("data/tuning_results.json", "w") as f:
+    json.dump(tuning_results, f)
+print("Kết quả tuning đã được lưu vào data/tuning_results.json")
