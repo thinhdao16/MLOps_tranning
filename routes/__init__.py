@@ -2,7 +2,7 @@ from .index_route import index_bp
 from .predict_route import predict_bp
 from .rainfall_route import rainfall_bp
 from .storm_route import storm_bp
-from .sunny import sunny_bp
+from .sunny_route import sunny_bp
 from .uv_route import uv_bp
 from .visibility_route import visibility_bp
 

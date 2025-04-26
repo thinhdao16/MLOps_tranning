@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
+from controller.rainfall_controller import rainfall as rainfall_controller
 
 rainfall_bp = Blueprint('rainfall', __name__)
 
-@rainfall_bp.route('/rainfall')
+@rainfall_bp.route('/rainfall', methods=['GET', 'POST'])
 def rainfall():
-    return render_template('rainfall.html')
+    return rainfall_controller()

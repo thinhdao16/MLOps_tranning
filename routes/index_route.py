@@ -7,5 +7,4 @@ index_bp = Blueprint('index', __name__)
 def index():
     # Lấy dữ liệu thời tiết cho trang chủ
     weather_data = get_weather_for_homepage()
-    print("Dữ liệu thời tiết:", weather_data)
     return render_template('index.html', weather_data=weather_data)

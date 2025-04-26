@@ -8,9 +8,119 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="text-3xl font-bold text-center mb-4">Dự đoán tầm nhìn</h1>
-<p class="text-gray-600 text-center">Đây là trang dự đoán tầm nhìn.</p>
-<div id="visibility-chart" class="mt-6">Biểu đồ tầm nhìn sẽ hiển thị ở đây.</div>
+<div class="">
+    <h1 class="text-3xl font-bold text-center mb-4">Dự đoán tầm nhìn</h1>
+
+    <!-- Nút mở modal -->
+    <div class="text-center mb-6">
+        <button id="openModal"
+            class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Thêm thông tin thời tiết
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 bg-blue-50 bg-opacity-10 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h2 class="text-2xl font-semibold mb-4 text-center">Nhập thông tin thời tiết</h2>
+            <form id="weatherForm" action="/visibility" method="post" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Tên người nhập</label>
+                    <input type="text" id="name" name="name" required
+                        class="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="temperature" class="block text-sm font-medium text-gray-700">Nhiệt độ (°C)</label>
+                    <input type="number" id="temperature" name="temperature" step="0.1" required
+                        class="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="humidity" class="block text-sm font-medium text-gray-700">Độ ẩm (%)</label>
+                    <input type="number" id="humidity" name="humidity" step="0.1" required
+                        class="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="pressure" class="block text-sm font-medium text-gray-700">Áp suất (hPa)</label>
+                    <input type="number" id="pressure" name="pressure" step="0.1" required
+                        class="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="wind" class="block text-sm font-medium text-gray-700">Tốc độ gió (m/s)</label>
+                    <input type="number" id="wind" name="wind" step="0.1" required
+                        class="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="clouds" class="block text-sm font-medium text-gray-700">Mức độ mây (%)</label>
+                    <input type="number" id="clouds" name="clouds" step="0.1" required
+                        class="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" id="closeModal"
+                        class="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 focus:outline-none">
+                        Hủy
+                    </button>
+                    <button type="submit" id="submitForm"
+                        class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none">
+                        Dự đoán
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="fixed inset-0 bg-blue-50 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="text-white text-xl">Đang xử lý...</div>
+    </div>
+
+    <!-- Bảng hiển thị dữ liệu -->
+    <div class="overflow-x-auto">
+        <table class="table-auto border-collapse border bg-white w-full text-left">
+            <thead>
+                <tr class="bg-white">
+                    <th class="border border-gray-300 px-4 py-2">Thành phố</th>
+                    <th class="border border-gray-300 px-4 py-2">Nhiệt độ (°C)</th>
+                    <th class="border border-gray-300 px-4 py-2">Độ ẩm (%)</th>
+                    <th class="border border-gray-300 px-4 py-2">Áp suất (hPa)</th>
+                    <th class="border border-gray-300 px-4 py-2">Tốc độ gió (m/s)</th>
+                    <th class="border border-gray-300 px-4 py-2">Mức độ mây (%)</th>
+                    <th class="border border-gray-300 px-4 py-2">Tầm nhìn</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in weather_data_list %}
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">{{ data.city }}</td>
+                    {% if data.error %}
+                    <td colspan="6" class="border border-gray-300 px-4 py-2 text-red-500">{{ data.error }}</td>
+                    {% else %}
+                    <td class="border border-gray-300 px-4 py-2">{{ data.weather.main.temp }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ data.weather.main.humidity }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ data.weather.main.pressure }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ data.weather.wind.speed }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ data.weather.clouds.all }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ data.prediction.visibility }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+
+                {% if user_data_list %}
+                {% for user in user_data_list %}
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">{{ user.city }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ user.temperature }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ user.humidity }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ user.pressure }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ user.wind }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ user.clouds }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ user.visibility }}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

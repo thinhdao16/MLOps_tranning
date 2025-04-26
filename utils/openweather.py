@@ -7,7 +7,7 @@ load_dotenv()
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 URL_OPENWEATHER = os.getenv("URL_OPENWEATHER")
 def fetch_weather_data(city_name, units="metric"):
-
+    print(f"Fetching weather data for {API_KEY}...")
     base_url = URL_OPENWEATHER
     params = {
         "q": city_name,
