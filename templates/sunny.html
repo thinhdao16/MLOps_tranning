@@ -1,0 +1,19 @@
+{% extends "component/base.html" %}
+
+{% block title %}Dự đoán thời tiết nắng{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link href="{{ url_for('static', filename='css/sunny.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold text-center mb-4">Dự đoán thời tiết nắng</h1>
+<p class="text-gray-600 text-center">Đây là trang dự đoán thời tiết nắng.</p>
+<div id="sunny-chart" class="mt-6">Biểu đồ thời tiết nắng sẽ hiển thị ở đây.</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/sunny.js') }}"></script>
+{% endblock %}

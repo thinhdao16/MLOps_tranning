@@ -1,0 +1,19 @@
+{% extends "component/base.html" %}
+
+{% block title %}Dự đoán lượng mưa{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link href="{{ url_for('static', filename='css/rainfall.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold text-center mb-4">Dự đoán lượng mưa</h1>
+<p class="text-gray-600 text-center">Đây là trang dự đoán lượng mưa.</p>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/rainfall.js') }}"></script>
+{% endblock %}

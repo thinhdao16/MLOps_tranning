@@ -1,0 +1,19 @@
+{% extends "component/base.html" %}
+
+{% block title %}Dự đoán tầm nhìn{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link href="{{ url_for('static', filename='css/visibility.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold text-center mb-4">Dự đoán tầm nhìn</h1>
+<p class="text-gray-600 text-center">Đây là trang dự đoán tầm nhìn.</p>
+<div id="visibility-chart" class="mt-6">Biểu đồ tầm nhìn sẽ hiển thị ở đây.</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/visibility.js') }}"></script>
+{% endblock %}

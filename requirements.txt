@@ -4,3 +4,4 @@ scikit-learn         # Thư viện học máy để huấn luyện mô hình
 pandas               # Xử lý và phân tích dữ liệu
 numpy                # Tính toán số học
 joblib               # Lưu và tải mô hình
+python-dotenv

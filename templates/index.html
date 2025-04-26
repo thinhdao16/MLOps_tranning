@@ -8,24 +8,119 @@
   <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
-<body>
-  <h1>Dự báo thời tiết</h1>
-  <form action="/predict" method="post">
-    <label for="features">Nhập các giá trị đặc trưng (cách nhau bằng dấu phẩy):</label><br />
-    <p>
-      <strong>Danh sách đặc trưng:</strong>
-    <ul>
-      <li><strong>temperature</strong>: Nhiệt độ</li>
-      <li><strong>humidity</strong>: Độ ẩm</li>
-      <li><strong>pressure</strong>: Áp suất</li>
-      <li><strong>wind</strong>: Tốc độ gió</li>
-      <li><strong>clouds</strong>: Mức độ mây</li>
-    </ul>
-    </p>
-    <input type="text" id="features" name="features" placeholder="Ví dụ: 25.5,60.2,1013.1,5.4,80.0" required
-      style="width: 100%" /><br /><br />
-    <button type="submit">Dự đoán</button>
-  </form>
+<body class="bg-gray-100">
+  <div class="container mx-auto py-10">
+    <h1 class="text-4xl font-bold text-center mb-10">Dự báo thời tiết</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Card Rainfall -->
+      <a href="/rainfall" class="block">
+        <div
+          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <div class="p-6 text-center">
+            <h2 class="text-2xl font-semibold mb-2">Dự đoán lượng mưa</h2>
+            <p class="text-gray-600">Xem dự đoán lượng mưa trong khu vực của bạn.</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card Storm -->
+      <a href="/storm" class="block">
+        <div
+          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <div class="p-6 text-center">
+            <h2 class="text-2xl font-semibold mb-2">Dự đoán xác suất bão</h2>
+            <p class="text-gray-600">Xem dự đoán xác suất bão trong khu vực của bạn.</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card Sunny -->
+      <a href="/sunny" class="block">
+        <div
+          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <div class="p-6 text-center">
+            <h2 class="text-2xl font-semibold mb-2">Dự đoán thời tiết nắng</h2>
+            <p class="text-gray-600">Xem dự đoán thời tiết nắng trong khu vực của bạn.</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card UV Index -->
+      <a href="/uv" class="block">
+        <div
+          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <div class="p-6 text-center">
+            <h2 class="text-2xl font-semibold mb-2">Dự đoán UV Index</h2>
+            <p class="text-gray-600">Xem dự đoán chỉ số UV trong khu vực của bạn.</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card Visibility -->
+      <a href="/visibility" class="block">
+        <div
+          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <div class="p-6 text-center">
+            <h2 class="text-2xl font-semibold mb-2">Dự đoán tầm nhìn</h2>
+            <p class="text-gray-600">Xem dự đoán tầm nhìn trong khu vực của bạn.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Card Input for Prediction -->
+    <div
+      class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+      <div class="p-6">
+        <h2 class="text-2xl font-semibold mb-4 text-center">Dự đoán thời tiết</h2>
+        <form id="prediction-form" action="/predict" method="post" class="space-y-4">
+          <div>
+            <label for="temperature" class="block text-sm font-medium text-gray-700">Nhiệt độ (°C)</label>
+            <input type="number" id="temperature" name="temperature" step="0.1" required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+          </div>
+          <div>
+            <label for="humidity" class="block text-sm font-medium text-gray-700">Độ ẩm (%)</label>
+            <input type="number" id="humidity" name="humidity" step="0.1" required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+          </div>
+          <div>
+            <label for="pressure" class="block text-sm font-medium text-gray-700">Áp suất (hPa)</label>
+            <input type="number" id="pressure" name="pressure" step="0.1" required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+          </div>
+          <div>
+            <label for="wind" class="block text-sm font-medium text-gray-700">Tốc độ gió (m/s)</label>
+            <input type="number" id="wind" name="wind" step="0.1" required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+          </div>
+          <div>
+            <label for="clouds" class="block text-sm font-medium text-gray-700">Mức độ mây (%)</label>
+            <input type="number" id="clouds" name="clouds" step="0.1" required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+          </div>
+          <button type="submit"
+            class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Dự đoán
+          </button>
+        </form>
+
+        <!-- Hiển thị kết quả dự đoán -->
+        {% if result %}
+        <div class="mt-6 bg-gray-100 p-4 rounded-md">
+          <h3 class="text-lg font-semibold mb-2">Kết quả dự đoán:</h3>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong>UV Index:</strong> {{ result['uv_index'] }}</li>
+            <li><strong>Lượng mưa:</strong> {{ result['rainfall'] }} mm</li>
+            <li><strong>Tầm nhìn:</strong> {{ result['visibility'] }} km</li>
+            <li><strong>Xác suất bão:</strong> {{ result['storm_probability'] }}</li>
+            <li><strong>Xác suất mưa:</strong> {{ result['rain_probability'] }}</li>
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 
