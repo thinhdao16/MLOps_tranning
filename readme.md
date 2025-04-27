@@ -68,7 +68,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Ứng dụng sẽ chạy tại địa chỉ: [http://127.0.0.1:5000](http://127.0.0.1:5000)
+Ứng dụng sẽ chạy tại địa chỉ: [http://127.0.0.1:3030](http://127.0.0.1:3030)
 
 ### 2. Chạy giao diện MLflow (nếu cần)
 
@@ -128,11 +128,11 @@ MLflow sẽ chạy tại địa chỉ: [http://127.0.0.1:5000](http://127.0.0.1:
 
 ### 1. Truy cập các trang dự đoán
 
-- **Dự đoán lượng mưa:** [http://127.0.0.1:5000/rainfall](http://127.0.0.1:5000/rainfall)
-- **Dự đoán xác suất bão:** [http://127.0.0.1:5000/storm](http://127.0.0.1:5000/storm)
-- **Dự đoán chỉ số UV:** [http://127.0.0.1:5000/uv](http://127.0.0.1:5000/uv)
-- **Dự đoán tầm nhìn:** [http://127.0.0.1:5000/visibility](http://127.0.0.1:5000/visibility)
-- **Dự đoán thời tiết nắng:** [http://127.0.0.1:5000/sunny](http://127.0.0.1:5000/sunny)
+- **Dự đoán lượng mưa:** [http://127.0.0.1:3030/rainfall](http://127.0.0.1:3030/rainfall)
+- **Dự đoán xác suất bão:** [http://127.0.0.1:3030/storm](http://127.0.0.1:3030/storm)
+- **Dự đoán chỉ số UV:** [http://127.0.0.1:3030/uv](http://127.0.0.1:3030/uv)
+- **Dự đoán tầm nhìn:** [http://127.0.0.1:3030/visibility](http://127.0.0.1:3030/visibility)
+- **Dự đoán thời tiết nắng:** [http://127.0.0.1:3030/sunny](http://127.0.0.1:3030/sunny)
 
 ### 2. Nhập thông tin thời tiết
 
