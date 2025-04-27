@@ -1,76 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dự báo thời tiết</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dự báo thời tiết</title>
-  <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-</head>
-
-<body class="bg-gray-100">
-  <div class="container mx-auto py-10">
-    <h1 class="text-4xl font-bold text-center mb-10">Dự đoán thời tiết</h1>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Card Rainfall -->
-      <a href="/rainfall" class="block">
-        <div
-          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-          <div class="p-6 text-center">
-            <h2 class="text-2xl font-semibold mb-2">Dự đoán lượng mưa</h2>
-            <p class="text-gray-600">Xem dự đoán lượng mưa trong khu vực của bạn.</p>
+  <body class="bg-gradient-to-r from-blue-100 via-white to-blue-100">
+    <div class="container mx-auto py-10">
+      <h1 class="text-4xl font-bold text-center mb-10 mt-6">
+        Dự đoán thời tiết
+      </h1>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card Rainfall -->
+        <a href="/rainfall" class="block">
+          <div
+            class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-blue-100 hover:scale-105 transition-all duration-300"
+          >
+            <div class="p-6 text-center">
+              <div class="flex justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-blue-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 15a4 4 0 118 0m-8 0a4 4 0 018 0m-8 0v6m8-6a4 4 0 118 0m-8 0a4 4 0 018 0m-8 0v6"
+                  />
+                </svg>
+              </div>
+              <h2 class="text-2xl font-semibold mb-2">Dự đoán lượng mưa</h2>
+              <p class="text-gray-600">
+                Xem dự đoán lượng mưa trong khu vực của bạn.
+              </p>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
 
-      <!-- Card Storm -->
-      <a href="/storm" class="block">
-        <div
-          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-          <div class="p-6 text-center">
-            <h2 class="text-2xl font-semibold mb-2">Dự đoán xác suất bão</h2>
-            <p class="text-gray-600">Xem dự đoán xác suất bão trong khu vực của bạn.</p>
+        <!-- Card Storm -->
+        <a href="/storm" class="block">
+          <div
+            class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-blue-100 hover:scale-105 transition-all duration-300"
+          >
+            <div class="p-6 text-center">
+              <div class="flex justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-red-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h2 class="text-2xl font-semibold mb-2">Dự đoán xác suất bão</h2>
+              <p class="text-gray-600">
+                Xem dự đoán xác suất bão trong khu vực của bạn.
+              </p>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
 
-      <!-- Card Sunny -->
-      <a href="/sunny" class="block">
-        <div
-          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-          <div class="p-6 text-center">
-            <h2 class="text-2xl font-semibold mb-2">Dự đoán thời tiết nắng</h2>
-            <p class="text-gray-600">Xem dự đoán thời tiết nắng trong khu vực của bạn.</p>
+        <!-- Card Sunny -->
+        <a href="/sunny" class="block">
+          <div
+            class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-blue-100 hover:scale-105 transition-all duration-300"
+          >
+            <div class="p-6 text-center">
+              <div class="flex justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-yellow-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 2v2m0 16v2m8-10h2M2 12H4m15.364-7.364l1.414 1.414M4.222 19.778l1.414-1.414M16.95 19.778l-1.414-1.414M4.222 4.222l1.414 1.414M12 6a6 6 0 100 12 6 6 0 000-12z"
+                  />
+                </svg>
+              </div>
+              <h2 class="text-2xl font-semibold mb-2">
+                Dự đoán thời tiết nắng
+              </h2>
+              <p class="text-gray-600">
+                Xem dự đoán thời tiết nắng trong khu vực của bạn.
+              </p>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
 
-      <!-- Card UV Index -->
-      <a href="/uv" class="block">
-        <div
-          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-          <div class="p-6 text-center">
-            <h2 class="text-2xl font-semibold mb-2">Dự đoán UV Index</h2>
-            <p class="text-gray-600">Xem dự đoán chỉ số UV trong khu vực của bạn.</p>
+        <!-- Card UV Index -->
+        <a href="/uv" class="block">
+          <div
+            class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-blue-100 hover:scale-105 transition-all duration-300"
+          >
+            <div class="p-6 text-center">
+              <div class="flex justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-purple-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v6l4 2"
+                  />
+                </svg>
+              </div>
+              <h2 class="text-2xl font-semibold mb-2">Dự đoán UV Index</h2>
+              <p class="text-gray-600">
+                Xem dự đoán chỉ số UV trong khu vực của bạn.
+              </p>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
 
-      <!-- Card Visibility -->
-      <a href="/visibility" class="block">
-        <div
-          class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-          <div class="p-6 text-center">
-            <h2 class="text-2xl font-semibold mb-2">Dự đoán tầm nhìn</h2>
-            <p class="text-gray-600">Xem dự đoán tầm nhìn trong khu vực của bạn.</p>
+        <!-- Card Visibility -->
+        <a href="/visibility" class="block">
+          <div
+            class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-blue-100 hover:scale-105 transition-all duration-300"
+          >
+            <div class="p-6 text-center">
+              <div class="flex justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-gray-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 12a9 9 0 0118 0M3 12a9 9 0 0018 0M3 12h18"
+                  />
+                </svg>
+              </div>
+              <h2 class="text-2xl font-semibold mb-2">Dự đoán tầm nhìn</h2>
+              <p class="text-gray-600">
+                Xem dự đoán tầm nhìn trong khu vực của bạn.
+              </p>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
-
-
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-</body>
-
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+  </body>
 </html>
