@@ -12,6 +12,7 @@
 - [Cấu trúc thư mục](#cấu-trúc-thư-mục)
 - [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)
 - [Mô hình học máy](#mô-hình-học-máy)
+- [Tải mô hình đã huấn luyện](#tải-mô-hình-đã-huấn-luyện)
 - [Liên hệ](#liên-hệ)
 
 ---

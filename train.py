@@ -18,7 +18,7 @@ mlflow.set_experiment(experiment_name)
 
 # Sinh dữ liệu phân loại giả lập với make_classification
 X, y = make_classification(
-    n_samples=20000,  # Số lượng mẫu
+    n_samples=100000,  # Số lượng mẫu
     n_features=5,     # Số lượng đặc trưng (giả định: nhiệt độ, độ ẩm, áp suất, gió, mây)
     n_informative=4,  # Số lượng đặc trưng quan trọng
     n_redundant=1,
