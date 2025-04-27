@@ -162,6 +162,12 @@ MLflow sẽ chạy tại địa chỉ: [http://127.0.0.1:5000](http://127.0.0.1:
 
 ---
 
+## Tải mô hình đã huấn luyện
+
+- https://drive.google.com/file/d/1c2AD4-WGZeheBYjAmcwFYpeNq3xaftV5/view?usp=sharing
+
+---
+
 ## Liên hệ
 
 Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ qua email: `support@weatherapp.com`.
